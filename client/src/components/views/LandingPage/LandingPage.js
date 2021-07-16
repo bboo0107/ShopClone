@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {RocketOutlined} from '@ant-design/icons';
-import { Col, Card, Row } from 'antd';
+import { Col, Card, Row, Modal } from 'antd';
 import axios from 'axios';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../Utils/ImageSlider'
@@ -8,6 +8,8 @@ import CheckBox from './Sections/CheckBox';
 import { categorys, price } from './Sections/Datas';
 import RadioBox from './Sections/RadioBox';
 import SearchBox from './Sections/SearchBox';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+// import "antd/dist/antd.css";
 
 function LandingPage() {
 
@@ -30,16 +32,40 @@ function LandingPage() {
             getProducts(body)            
         }, [])
 
+        // const [isModalVisible, setIsModalVisible] = useState(false);
+
+        // const showModal = () => {
+        //     setIsModalVisible(true);
+        // };
+
+        // const handleOk = () => {
+        //     setIsModalVisible(false);
+        // };
+
+        // const handleCancel = () => {
+        //     setIsModalVisible(false);
+        // };
+
+
         const renderCards = Products.map((product, index) => {
             return <Col lg={6} md={8} sm={24} key={index}>
                 <Card                  
-                    cover={<ImageSlider images={product.images}/>}
+                    cover={<a href={`/product/${product._id}`}><ImageSlider images={product.images} auto/></a>}
                 >
                     <Meta 
                         title={product.title}
                         description={`$${product.price}`}
                     />
+                        {/* 모달창 */}
+                        {/* <ShoppingCartOutlined style={{float: 'right', fontSize: '25px'}} onClick={showModal}/> */}
+                        {/* <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} style={{backgroundColor:'rgba(0, 0, 0, 0.6)'}}>
+                            <p>Some contents...</p>
+                            <p>Some contents...</p>
+                            <p>Some contents...</p>
+                        </Modal> */}
+                        {/* 클릭시 수량 체크 팝업, 카트로 이동 */}
                 </Card>
+                <br />
             </Col>
         })
 
@@ -154,7 +180,6 @@ function LandingPage() {
             <Row gutter={16, 16}>
                 {renderCards}
             </Row>
-
             <br />
             <br />
             {PostSize >= Limit &&

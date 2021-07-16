@@ -36,6 +36,8 @@ router.post('/', (req, res) => {
     })
 })
 
+// https://www.inflearn.com/questions/33456
+
 // LandingPage
 // 상품 목록 조회(필터)
 router.post('/products', (req, res) => {
@@ -85,5 +87,38 @@ router.post('/products', (req, res) => {
 
 })
 
+//`/product/${product._id}`
+router.get('/product_id',(req, res,) => {
+
+  //console.log(req.query)
+  let productId = req.query.id
+
+  Product.find({_id: {$in: productId}})
+  .populate('writer')
+  .exec((err, product) => {
+    if(err) return res.status(200).json({success: false, err})
+    return res.status(200).json({success: true, product})
+  })
+})
+
+// 조회수 update ***********************************************************
+
+
+// router.get('/product_id',(req, res,) => {
+
+//   //console.log(req.query)
+//   let productId = req.query.id
+
+//   Product.findOneAndUpdate(
+//     {_id: {$in: productId}},
+//     {$inc: {"views": 1}},
+//     {new: true}  
+//     )
+//   .populate('writer')
+//   .exec((err, product) => {
+//     if(err) return res.status(200).json({success: false, err})
+//     return res.status(200).json({success: true, product})
+//   })
+// })
 
 module.exports = router;

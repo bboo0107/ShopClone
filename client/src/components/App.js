@@ -8,10 +8,12 @@ import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import UploadProduct from './views/UploadProduct/UploadProduct';
+import DetailPage from './views/DetailPage/DetailPage';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
+//upload는 관리자만 id admin
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/product/upload" component={Auth(UploadProduct, true)} />
+          <Route exact path="/product/:productId" component={Auth(DetailPage, null)} />
         </Switch>
       </div>
       <Footer />

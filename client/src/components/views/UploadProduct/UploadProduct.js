@@ -75,7 +75,7 @@ export default function UploadProduct(props) {
 
         Axios.post('/api/product', body)
         .then(res => {
-            //console.log(res.data)
+            console.log(res.data)
             if(res.data.success){
                 alert('상품 등록에 성공했습니다.')
                 props.history.push('/');

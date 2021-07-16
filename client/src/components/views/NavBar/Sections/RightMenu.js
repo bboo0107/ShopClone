@@ -20,6 +20,7 @@ function RightMenu(props) {
   };
 
   if (user.userData && !user.userData.isAuth) {
+   
     return (
       <Menu mode={props.mode} >
         <Menu.Item key="mail">
@@ -30,7 +31,9 @@ function RightMenu(props) {
         </Menu.Item>
       </Menu>
     )
-  } else {
+  } else if(user.userData && user.userData.role === 0){ //관리자 아니면 진입조차 막기
+    console.log(user.userData)
+    //console.log(props)
     return (
       <Menu mode={props.mode}>
 
@@ -44,7 +47,20 @@ function RightMenu(props) {
         
       </Menu>
     )
+  } else {
+    console.log(user.userData)
+    //console.log(props)
+    return (
+      <Menu mode={props.mode}>
+
+        <Menu.Item key="logout">
+          <a onClick={logoutHandler}>Logout</a>
+        </Menu.Item>
+        
+      </Menu>
+    )
   }
+
 }
 
 export default withRouter(RightMenu);
