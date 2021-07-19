@@ -5,6 +5,8 @@ import axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { Badge } from 'antd';
+import {ShoppingCartOutlined} from '@ant-design/icons';
 
 function RightMenu(props) {
   const user = useSelector(state => state.user)
@@ -32,13 +34,21 @@ function RightMenu(props) {
       </Menu>
     )
   } else if(user.userData && user.userData.role === 0){ //관리자 아니면 진입조차 막기
-    console.log(user.userData)
+    //console.log(user.userData)
     //console.log(props)
     return (
       <Menu mode={props.mode}>
 
         <Menu.Item key="upload">
         <a href="/product/upload">Upload</a>
+        </Menu.Item>
+
+        <Menu.Item key="cart" style={{paddingBottom: 3}}>
+          <Badge count={2}>
+            <a href="/user/cart" style={{marginRight: -22, color:'#667777'}}>
+              <ShoppingCartOutlined style={{fontSize: 30, marginBottom: 3}} />
+            </a>
+          </Badge>
         </Menu.Item>
 
         <Menu.Item key="logout">
@@ -48,10 +58,18 @@ function RightMenu(props) {
       </Menu>
     )
   } else {
-    console.log(user.userData)
+    //console.log(user.userData)
     //console.log(props)
     return (
       <Menu mode={props.mode}>
+
+        <Menu.Item key="cart" style={{paddingBottom: 3}}>
+          <Badge count={2}>
+            <a href="/user/cart" style={{marginRight: -22, color:'#667777'}}>
+              <ShoppingCartOutlined style={{fontSize: 30, marginBottom: 3}} />
+            </a>
+          </Badge>
+        </Menu.Item>
 
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>

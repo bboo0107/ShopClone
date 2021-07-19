@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Dropzone from 'react-dropzone'
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -6,9 +6,13 @@ import axios from 'axios';
 export default function FileUpload(props) {
 
     const [Images, setImages] = useState([])
+    console.log("props",props) //이미지 가져옴
+    useEffect(()=>setImages([props.image]),[]); //무한 루프...******************
+    console.log("Images",Images)
+    
     
     const dropHandler = (files) => {
-            let formData = new FormData(); // 업로드할 파일에 대한 정보
+        let formData = new FormData(); // 업로드할 파일에 대한 정보
         
             const config = {
                 header: { 'content-type': 'multipart/form-data'}

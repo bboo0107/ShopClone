@@ -22,6 +22,15 @@ const userSchema = mongoose.Schema({
         type:String,
         maxlength: 50
     },
+    //user의 정보에 카트와  이력정보를 넣어줌
+    cart: {
+        type: Array,
+        default: []
+    },
+    history: {
+        type: Array,
+        defualt: []
+    },
     role : {
         type:Number,
         default: 1 

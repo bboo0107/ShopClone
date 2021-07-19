@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../_actions/user_actions';
 import { Descriptions, Select, Button } from 'antd';
 const { Option } = Select;
 
 export default function ProductInfo(props) {
-    console.log("detail",props.detail)
+    //console.log("detail",props.detail)
 
     const [Value, setValue] = useState(0)
 
@@ -13,6 +15,15 @@ export default function ProductInfo(props) {
     }
 
     let totalPrice = props.detail.price * Value
+
+    const dispatch = useDispatch();
+
+    const clickHandler = () => {
+        //필요한 정보를 Cart필드에 넣어준다 => user에 관련된건 redux사용
+        //user_actions
+        dispatch(addToCart(props.detail._id,Value))
+        //보여주는건 없음  res안해도된다
+    }
 
     return (
         <div>
@@ -37,7 +48,7 @@ export default function ProductInfo(props) {
             <br />
             <br />
             <div style={{display: 'flex', justifyContent: 'center', width: '300px', float: 'right'}}>
-                <Button size= "large" shape="round" type="danger" block>
+                <Button size= "large" shape="round" type="danger" block onClick={clickHandler}> 
                     Add to Cart
                 </Button>
             </div>

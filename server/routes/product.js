@@ -41,22 +41,47 @@ router.post('/', (req, res) => {
 // LandingPage
 // 상품 목록 조회(필터)
 router.post('/products', (req, res) => {
-  //console.log(req.body) //=> skip, limit, filters
+  console.log(req.body) //=> skip, limit, filters
+  
 
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
   let findArgs = {}; // category: [2]
   let search = req.body.searchTerm
+  let order = "desc";
+  let sortBy = "_id";
+  //let order = req.body.order ? req.body.order : "desc";
+
+  //let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+  let sort = req.body.filters && req.body.filters.sort;
+
+  //console.log("sort",sort)
+
+  //정렬 
+  if(sort === undefined && sort === 1){
+    order = "desc";
+    sortBy = "_id";
+  }  else if( sort === 2){
+    order = "1";
+    sortBy = "price"
+  } else if( sort === 3){
+    order = "-1";
+    sortBy = "price"
+  } else if( sort === 4){
+    order = "-1";
+    sortBy = "sold"
+  }
 
   for(let key in req.body.filters){ 
     if(req.body.filters[key].length > 0){ //key 는 category or price
-      //console.log('key',key)   
+      console.log('key',key)   
       if(key === "price"){ //radio
         findArgs[key] = {
           $gte: req.body.filters[key][0], // 보다 크거나 같고
           $lte: req.body.filters[key][1] // 보다 작거나 같은
         }
-      } else {
+      }
+      else {
         findArgs[key] = req.body.filters[key]; // checkbox 필터
       }     
     }
@@ -69,6 +94,7 @@ router.post('/products', (req, res) => {
     .populate('writer')
     .skip(skip)
     .limit(limit)
+    .sort([[sortBy, order]])
     .exec((err, productInfo) => {
       if(err) return res.status(400).json({success: false, err})
       return res.status(200).json({success: true, productInfo, postSize: productInfo.length})
@@ -78,6 +104,7 @@ router.post('/products', (req, res) => {
     .populate('writer')
     .skip(skip)
     .limit(limit)
+    .sort([[sortBy, order]]) 
     .exec((err, productInfo) => {
       if(err) return res.status(400).json({success: false, err})
       return res.status(200).json({success: true, productInfo, postSize: productInfo.length})
@@ -92,6 +119,7 @@ router.get('/product_id',(req, res,) => {
 
   //console.log(req.query)
   let productId = req.query.id
+
 
   Product.find({_id: {$in: productId}})
   .populate('writer')

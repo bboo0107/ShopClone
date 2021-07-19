@@ -9,6 +9,7 @@ import { categorys, price } from './Sections/Datas';
 import RadioBox from './Sections/RadioBox';
 import SearchBox from './Sections/SearchBox';
 import { ShoppingCartOutlined } from '@ant-design/icons';
+import SortBox from './Sections/SortBox';
 // import "antd/dist/antd.css";
 
 function LandingPage() {
@@ -62,7 +63,7 @@ function LandingPage() {
                             <p>Some contents...</p>
                             <p>Some contents...</p>
                             <p>Some contents...</p>
-                        </Modal> */}
+                        </Modal> */}.
                         {/* 클릭시 수량 체크 팝업, 카트로 이동 */}
                 </Card>
                 <br />
@@ -113,7 +114,8 @@ function LandingPage() {
         const handleFilters = (filters, category) => {
             const newFilters = {...Filters}
             newFilters[category] = filters
-            //console.log(filters)
+            // console.log("filter",filters)
+            // console.log("category",category)
 
             if(category === "price"){
                 let priceValue = handlePrice(filters)
@@ -122,6 +124,7 @@ function LandingPage() {
             
             showFilterdResults(newFilters)
             setFilters(newFilters)
+            //console.log(Filters)
         }
 
         const handlePrice = (value) => {
@@ -156,7 +159,7 @@ function LandingPage() {
         <div style={{width: '75%', margin: '3rem auto'}}>
             <div style={{textAlign:'center'}}>
                 <h1> Coffee <RocketOutlined /></h1>
-            </div>
+            </div>           
             <br />
             {/* Filter */}
             <Row gutter={16,16}>
@@ -173,6 +176,9 @@ function LandingPage() {
             {/* Search */}
             <div style={{float: 'right'}}>
                 <SearchBox SearchFunction={searchWord}/>
+            </div>
+            <div style={{float: 'left'}}>
+                <SortBox handleFilters={filters => handleFilters(filters, "sort")}/>
             </div>
             <br />
             <br />

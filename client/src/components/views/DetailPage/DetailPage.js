@@ -3,11 +3,16 @@ import React, { useEffect, useState } from 'react'
 import ProductImage from './ProductImage'
 import {Row, Col} from 'antd';
 import ProductInfo from './ProductInfo';
+import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 export default function DetailPage(props) {
 
     const productId = props.match.params.productId
     const [Product, setProduct] = useState({})
+
+    const user = useSelector(state => state.user)  //**************** */
+    //console.log(user.userData)
 
     useEffect(() => {
         Axios.get(`/api/product/product_id?id=${productId}`)
@@ -19,6 +24,11 @@ export default function DetailPage(props) {
 
     return (
         <div style={{width: '80%', minHeight:'300px', maxHeight: '1200px', alignContent: 'center', margin: '0 auto'}}>
+            {/* {console.log(user.userData)} */}
+                <Link to={`/product/update/${productId}`}>
+                    {user.userData && user.userData.role  === 0? <div style={{float:'right', marginTop:'30px'}}>
+                        <button>수  정</button></div> : <></>}   
+                </Link>
             <div style={{width: '80%', height: '600px', alignContent: 'center', margin: '0 auto'}}>
                 <div style={{width: '50%', height: '550px', float:'left', margin: '4rem auto'}}>
                     <Col sm={20}>
