@@ -10,7 +10,7 @@ import RadioBox from './Sections/RadioBox';
 import SearchBox from './Sections/SearchBox';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import SortBox from './Sections/SortBox';
-// import "antd/dist/antd.css";
+import ModalPage from './Sections/ModalPage';
 
 function LandingPage() {
 
@@ -33,21 +33,6 @@ function LandingPage() {
             getProducts(body)            
         }, [])
 
-        // const [isModalVisible, setIsModalVisible] = useState(false);
-
-        // const showModal = () => {
-        //     setIsModalVisible(true);
-        // };
-
-        // const handleOk = () => {
-        //     setIsModalVisible(false);
-        // };
-
-        // const handleCancel = () => {
-        //     setIsModalVisible(false);
-        // };
-
-
         const renderCards = Products.map((product, index) => {
             return <Col lg={6} md={8} sm={24} key={index}>
                 <Card                  
@@ -57,14 +42,7 @@ function LandingPage() {
                         title={product.title}
                         description={`$${product.price}`}
                     />
-                        {/* 모달창 */}
-                        {/* <ShoppingCartOutlined style={{float: 'right', fontSize: '25px'}} onClick={showModal}/> */}
-                        {/* <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} style={{backgroundColor:'rgba(0, 0, 0, 0.6)'}}>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                        </Modal> */}.
-                        {/* 클릭시 수량 체크 팝업, 카트로 이동 */}
+                    <ModalPage product={product}/>
                 </Card>
                 <br />
             </Col>

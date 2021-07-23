@@ -10,6 +10,8 @@ import Footer from "./views/Footer/Footer"
 import UploadProduct from './views/UploadProduct/UploadProduct';
 import DetailPage from './views/DetailPage/DetailPage';
 import UpdatePage from './views/UpdatePage/UpdatePage';
+import CartPage from './views/CartPage/CartPage';
+import MyPage from './views/MyPage/MyPage';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -28,6 +30,8 @@ function App() {
           <Route exact path="/product/upload" component={Auth(UploadProduct, true)} />
           <Route exact path="/product/:productId" component={Auth(DetailPage, null)} />
           <Route exact path="/product/update/:productId" component={Auth(UpdatePage, true)} />
+          <Route exact path="/user/cart" component={Auth(CartPage, true)} />
+          <Route exact path="/user/mypage" component={Auth(MyPage, true)} />
         </Switch>
       </div>
       <Footer />

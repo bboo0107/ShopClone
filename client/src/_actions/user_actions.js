@@ -5,6 +5,11 @@ import {
     AUTH_USER,
     LOGOUT_USER,
     ADD_TO_CART,
+    GET_CART_ITEMS,
+    DECREMENT,
+    INCREMENT,
+    REMOVE_CART_ITEM,
+    ON_SUCCESS_BUY
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -57,10 +62,107 @@ export function addToCart(id,value){
     }
 
     const request = axios.post(`${USER_SERVER}/addToCart`, body)
-    .then(response => response.data);
+    .then(res => res.data);
 
     return {
         type: ADD_TO_CART,
+        payload: request
+    }
+}
+
+
+export function getCartItems(cartItems, userCart){
+    console.log("cartItems",cartItems)
+    console.log("userCart",userCart)
+
+    const request = axios.get(`/api/product/product_id?id=${cartItems}&type=array`)
+    .then(response => {
+            // CartItem들에 해당하는 정보들을
+            // Product Collection에서 가져온 후에 
+            // Quantity 정보를 넣어준다.
+
+            userCart.forEach(cartItem => {
+                response.data.forEach((productDetail, index) => {
+                    //console.log(productDetail)
+                    if(cartItem.id === productDetail._id){
+                        response.data[index].quantity = cartItem.quantity
+                    }
+                })
+            })
+            return response.data;
+    });
+
+    return {
+        type: GET_CART_ITEMS,
+        payload: request
+    }
+}
+
+export function decrement(product){
+    
+    let body = {
+        id: product._id,
+        quantity: product.quantity,
+        price: product.price
+    }
+    // console.log("product",product)
+    // console.log("productid",body.id)
+    // console.log("quantity",body.quantity)
+
+    const request = axios.post(`${USER_SERVER}/decrement`, body)
+    .then(res => res.data);
+
+    return {
+        type: DECREMENT,
+        payload: request
+    }
+}
+
+export function increment(product){
+    
+    let body = {
+        id: product._id,
+        quantity: product.quantity
+    }
+
+    const request = axios.post(`${USER_SERVER}/increment`, body)
+    .then(res => res.data);
+
+    return {
+        type: INCREMENT,
+        payload: request
+    }
+}
+
+export function removeCartItem(productId){
+
+    const request = axios.get(`/api/users/removeFromCart?id=${productId}`) // 요청
+    .then(res => {         
+        //users에서 받아온 productInfo, cart 정보를 조합해서 CartDetail을 만든다.
+        res.data.cart.forEach(item => {
+            res.data.productInfo.forEach((product, index) => {
+                if(item.id === product.id){ 
+                    res.data.productInfo[index].quantity = item.quantity
+                }
+            })
+        })
+
+            return res.data;
+    });
+
+    return {
+        type: REMOVE_CART_ITEM,
+        payload: request
+    }
+}
+
+export function onSuccessBuy(data){
+
+    const request = axios.post(`/api/users/successBuy`,data) // 요청
+    .then(res => res.data);
+
+    return {
+        type: ON_SUCCESS_BUY,
         payload: request
     }
 }

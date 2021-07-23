@@ -6,9 +6,9 @@ import axios from 'axios';
 export default function FileUpload(props) {
 
     const [Images, setImages] = useState([])
-    console.log("props",props) //이미지 가져옴
-    useEffect(()=>setImages([props.image]),[]); //무한 루프...******************
-    console.log("Images",Images)
+    //console.log("props",props) //이미지 가져옴
+    //useEffect(()=>setImages([props.image]),[]); //무한 루프...upload 엑박******************
+    //console.log("Images",Images)
     
     
     const dropHandler = (files) => {

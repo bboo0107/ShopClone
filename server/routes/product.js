@@ -117,36 +117,24 @@ router.post('/products', (req, res) => {
 //`/product/${product._id}`
 router.get('/product_id',(req, res,) => {
 
-  //console.log(req.query)
-  let productId = req.query.id
+  let type = req.query.type //single or array
+  let productIds = req.query.id
 
+  if(type === "array"){
+    // productIds = 123123,234234,345345 를
+    // productIds  = ['123123', '234234', '345345] 로 바꿔줌
+    let ids = req.query.id.split(',')
+    productIds = ids.map(item=>{
+      return item
+    })
+  }
 
-  Product.find({_id: {$in: productId}})
+  Product.find({_id: {$in: productIds}})
   .populate('writer')
   .exec((err, product) => {
     if(err) return res.status(200).json({success: false, err})
-    return res.status(200).json({success: true, product})
+    return res.status(200).send(product)
   })
 })
-
-// 조회수 update ***********************************************************
-
-
-// router.get('/product_id',(req, res,) => {
-
-//   //console.log(req.query)
-//   let productId = req.query.id
-
-//   Product.findOneAndUpdate(
-//     {_id: {$in: productId}},
-//     {$inc: {"views": 1}},
-//     {new: true}  
-//     )
-//   .populate('writer')
-//   .exec((err, product) => {
-//     if(err) return res.status(200).json({success: false, err})
-//     return res.status(200).json({success: true, product})
-//   })
-// })
 
 module.exports = router;

@@ -8,6 +8,9 @@ import { useSelector } from "react-redux";
 import { Badge } from 'antd';
 import {ShoppingCartOutlined} from '@ant-design/icons';
 
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+
 function RightMenu(props) {
   const user = useSelector(state => state.user)
 
@@ -44,12 +47,19 @@ function RightMenu(props) {
         </Menu.Item>
 
         <Menu.Item key="cart" style={{paddingBottom: 3}}>
-          <Badge count={2}>
+          <Badge count={user.userData && user.userData.cart.length}>
             <a href="/user/cart" style={{marginRight: -22, color:'#667777'}}>
               <ShoppingCartOutlined style={{fontSize: 30, marginBottom: 3}} />
             </a>
           </Badge>
         </Menu.Item>
+
+        <SubMenu title={<span>My Page</span>}>
+          <MenuItemGroup >
+            <Menu.Item key="setting:1">##</Menu.Item>
+            <Menu.Item key="setting:2">##</Menu.Item>
+          </MenuItemGroup>
+        </SubMenu>
 
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
@@ -58,18 +68,27 @@ function RightMenu(props) {
       </Menu>
     )
   } else {
-    //console.log(user.userData)
-    //console.log(props)
     return (
       <Menu mode={props.mode}>
 
         <Menu.Item key="cart" style={{paddingBottom: 3}}>
-          <Badge count={2}>
+          <Badge  count={user.userData && user.userData.cart.length}>
             <a href="/user/cart" style={{marginRight: -22, color:'#667777'}}>
               <ShoppingCartOutlined style={{fontSize: 30, marginBottom: 3}} />
             </a>
           </Badge>
         </Menu.Item>
+
+        <SubMenu title={<span>My Page</span>}>
+          <MenuItemGroup >
+            <Menu.Item key="setting:1">
+              <a href="/user/mypage">나의 정보</a>
+            </Menu.Item>
+            <Menu.Item key="setting:2">
+            <a href="#">주문 내역</a>
+            </Menu.Item>
+          </MenuItemGroup>
+        </SubMenu>
 
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>

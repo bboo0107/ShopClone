@@ -32,13 +32,13 @@ export default function UpdatePage(props) {
     useEffect(() => {
         Axios.get(`/api/product/product_id?id=${productId}`)
         .then(res => {
-            //console.log(res.data.product)
-            setTitle(res.data.product[0].title)
-            setDescription(res.data.product[0].description)
-            setPrice(res.data.product[0].price)
-            setContinent(res.data.product[0].continents)
-            setCategory(res.data.product[0].categorys)
-            setImages(res.data.product[0].images)  //이미지만 수정 필요
+            console.log("내용",res.data)
+            setTitle(res.data[0].title)
+            setDescription(res.data[0].description)
+            setPrice(res.data[0].price)
+            setContinent(res.data[0].continents)
+            setCategory(res.data[0].categorys)
+            setImages(res.data[0].images)  //이미지만 수정 필요
         })
     }, [])
 

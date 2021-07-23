@@ -15,11 +15,12 @@ export default function DetailPage(props) {
     //console.log(user.userData)
 
     useEffect(() => {
-        Axios.get(`/api/product/product_id?id=${productId}`)
+        Axios.get(`/api/product/product_id?id=${productId}&type=single`)
         .then(res => {
-            console.log(res.data.product)
-            setProduct(res.data.product[0])
+            //console.log(res.data.product)
+            setProduct(res.data[0])
         })
+        .catch(err=>alert(err))
     }, [])
 
     return (
